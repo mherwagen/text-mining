@@ -1,0 +1,22 @@
+# Assignment 2 Reflection | Maria Herwagen
+
+## 1. Project Overview
+
+For this project, I chose to analyze the Wikipedia pages for Johnny Depp and Amber heard using Levenshtein's Distance and sentiment analysis. Generally, Wikipedia and other encyclopedia entries are supposed to be objective. I wanted to see if in light of the recent trials, the information about these celebrities was similar in wording, and if the sentiment about them was similar between the two articles.
+
+## 2. Implementation
+
+I loaded the data into two text files, and then extracted strings from them. Since both the NLTK and The Fuzz libraries use strings as inputs, I could keep the data as such. I then focused in on specific sections to perform my analysis using the full thefuzz.fuzz library and the Sentiment Intensity Analyzer function from NLTK. For my results, I leveraged f strings to explain the numbers to the user.
+One decision I had to make for my design was whether to make my functions specific to the content I was working with or to make them more general. Using specific functions would have required more of them and used more computational power, however, it would make my main() function much neater. Using general functions would require more variable defintions in the docstrings and more code in my main() function, but it would allow for a repeatable process for the user to be able to leverage my code for other similar projects. In the end, I chose to make my text file function specific to the project at the start of my code, and then use general functions for the rest of it, as I leveraged them more than once for different articles and sections in my main() function. This allowed me to have an easier time with the initial text file creation, but then I was able to save computational power, even if my main() function has a lot of code inside of it. This approach would also let the end user make only minor changes to the first function as well as to the main() function at the end to be able to use this code for another Wikipedia article analysis.
+
+## 3. Result
+
+I found that the career sections for Johnny Depp and Amber Heard are fairly similar, but still have many differences. This was expected given the fact that they have had very different careers, but are both actors working in the same field.
+The sentiment analysis of the career sections shows that overall, there's more positive **and** more negative sentiment associated with Johnny Depp's career than with Amber Heard's. This may be because of the larger amount of words in his section, but it looks like overall, Johnny Depp's section has more sentiment-indicative words. This may suggest more polarized sentiment associated with this actor.
+
+As for their personal life sections, I found those to be even more similar than the career sections. This makes sense because both actors have descriptions of the trials in these sections, which should contain most of the same information.
+The sentiment analysis of the personal life sections shows that overall, there's more positive and less negaitve sentiment associated with Johnny Depp than with Amber Heard. This again may be because the section is longer for Depp, but it could also point to positive-sentiment bias towards the male actor.
+
+## 4. Reflection.
+
+I wasn't sure how big the scope of this project should be, so I went for two simpler analysis techniques and tried to leverage them together. I think that having two things like similiarty and sentiment analysis side by side allowed me to really focus on the content of these articles, especially once I figured out how to cut into specific sections. I think the layout went well for me, and I'm glad I though of making more general functions rather than creating more individual functions that were repetitive. If I had spent more time on it, I would have probably added some word count analysis, as I think it would help me make some of the points, but I didn't find the time to implement that, especially as I'm still working on figuing out the book analysis exercise. I tested each of my functions as I went along, and I didn't find much difficulty with any of them except the setup of the text files and the extraction function. From this experience, I have learned how to set up a full project in Python and how to work through the challenges, changes, and edits. It was difficult to scrap some of the work that I had done in order to resturcture the project, but I'm glad I worked towards simplicity and clarity. 
