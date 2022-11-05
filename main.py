@@ -3,71 +3,8 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from regex import F
 from thefuzz import fuzz
 
-
-def access_data():
-    """
-    Access Wikipedia pages for Johnny Depp and Amber Heard and write the content into text files.
-    """
-    wikipedia = MediaWiki()
-
-    jd = wikipedia.page("Johnny Depp")
-    ah = wikipedia.page("Amber Heard")
-    text_file = open('johnny_depp.txt', 'w', encoding="utf-8")
-    text_file.write(jd.content)
-    text_file.close()
-
-    text_file = open('amber_heard.txt', 'w', encoding="utf-8")
-    text_file.write(ah.content)
-    text_file.close()
-
-
-def read_part(file, start_string, end_string):
-    """
-    return part of a text file between specified lines (start and end strings) as a string
-    file: .txt
-    start_string, end_string: string
-    """
-    res = ''  # Array for saving lines
-    f = open(file, 'r', encoding="utf-8")
-    for line in f:
-        lines = f.read()
-        # credit for searching between two points of a string: https://stackoverflow.com/a/55917313
-        lines = lines[lines.find(start_string):lines.find(end_string)]
-        res += lines
-    return res
-
-
-def compare(string1, string2):
-    """
-    Uses fuzz library to return different comparison metrics of two strings
-    """
-    compare = fuzz.ratio(string1, string2)
-    partial = fuzz.partial_ratio(string1, string2)
-    sort = fuzz.token_sort_ratio(string1, string2)
-    token_set = fuzz.token_set_ratio(string1, string2)
-    return compare, partial, sort, token_set
-
-
-def sentiment(string):
-    """
-    Return sentiment analysis of a string using nltk library.
-    """
-    sent = SentimentIntensityAnalyzer().polarity_scores(string)
-    return sent
-
-
-def comp_sent(num1, num2):
-    """
-    Compares two numbers and returns a string to describe the comparison of the second as seen from the first.
-    """
-    round(num1, 1)
-    round(num2, 1)
-    if num1 > num2:
-        return 'more'
-    if num2 > num1:
-        return 'less'
-    if num1 == num2:
-        return 'similarly'
+from access import access_data, read_part
+from text_analyze import count_words, remove_stopwords, compare, sentiment, comp_sent
 
 
 def main():
@@ -81,7 +18,17 @@ def main():
     ah_career = read_part('amber_heard.txt', '== Career ==',
                           '== Charity and activism ==')
 
+    jd_career_count = count_words(jd_career)
+    ah_career_count = count_words(ah_career)
+    print(
+        f'Johnny Depp\'s Wikipedia page "Career" section consists of {jd_career_count} words.')
+    print(
+        f'Amber Heard\'s Wikipedia page "Career" section consists of {ah_career_count} words.')
+    print()
+
     career_comp = compare(jd_career, ah_career)
+    # credit for printing tuple without parentheses: https://bobbyhadz.com/blog/python-print-tuple-without-parenthesis
+    career_comp = ', '.join(str(number) for number in career_comp)
     print(
         f'The career sections about Johnny Depp and Amber Heard compare at indexes of {career_comp} out of 100 possible for closest matches. These numbers describe the Levenshtein Distances between the entries as assessed by different ratios with increasing levels of leniency towards repetition and shuffle.')
     print()
@@ -101,7 +48,16 @@ def main():
     ah_pl = read_part('amber_heard.txt',
                       '== Personal life ==', '== Filmography ==')
 
+    jd_pl_count = count_words(jd_pl)
+    ah_pl_count = count_words(ah_pl)
+    print(
+        f'Johnny Depp\'s Wikipedia page "Personal Life" section consists of {jd_pl_count} words.')
+    print(
+        f'Amber Heard\'s Wikipedia page "Personal Life" section consists of {ah_pl_count} words.')
+    print()
+
     pl_comp = compare(jd_pl, ah_pl)
+    pl_comp = ', '.join(str(number) for number in pl_comp)
     print(
         f'The personal life sections about Johnny Depp and Amber Heard, which both include the trial, compare at indexes of {pl_comp} out of 100 possible for closest matches. These numbers describe the Levenshtein Distances between the entries as assessed by different ratios with increasing levels of leniency towards repetition and shuffle.')
     print()
